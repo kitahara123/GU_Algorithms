@@ -12,7 +12,6 @@ namespace GU_Algorithms
 
 	class Program
 	{
-		static int count;
 		static void Main(string[] args)
 		{
 
@@ -81,7 +80,7 @@ namespace GU_Algorithms
 			int res = 0;
 			if (val == target) res = 1;
 
-			if (val * 2 < target)
+			if (val * 2 <= target)
 				res += Calc(val * 2, target);
 			if (val + 1 <= target)
 				res += Calc(val + 1, target);
