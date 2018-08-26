@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 /// </summary>
 namespace GU_Algorithms
 {
+
 	class Program
 	{
+		static int count;
 		static void Main(string[] args)
 		{
 
@@ -25,8 +27,14 @@ namespace GU_Algorithms
 			Console.WriteLine(PwrReq(arg, arg1));
 			#endregion
 
+			#region 3. Первая команда увеличивает число на экране на 1, вторая увеличивает это число в 2 раза. Сколько существует программ, которые число 3 преобразуют в число 20?
+			Console.WriteLine(Calc(3, 20));
+			#endregion
+
 			Console.ReadKey();
 		}
+
+
 
 		// 1. Реализовать функцию перевода из десятичной системы в двоичную, используя рекурсию.
 		private static void ToBinary(int num)
@@ -64,6 +72,22 @@ namespace GU_Algorithms
 
 		}
 
+		/* 3. Первая команда увеличивает число на экране на 1, вторая увеличивает это число в 2 раза. Сколько существует программ, которые число 3 преобразуют в число 20?
+		 * Рекурсивно: 
+		 
+		*/
+		private static int Calc(int val, int target)
+		{
+			int res = 0;
+			if (val == target) res = 1;
+
+			if (val * 2 < target)
+				res += Calc(val * 2, target);
+			if (val + 1 <= target)
+				res += Calc(val + 1, target);
+
+			return res;
+		}
 
 
 
