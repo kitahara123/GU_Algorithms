@@ -14,82 +14,107 @@ namespace GU_Algorithms
 	{
 		static void Main(string[] args)
 		{
+			int[] arr = new int[] { 1, 10, 23, 2, 31, 3, 5, 3, 2, 7, 8, 8, 123, 345, 3324, 12, 23, 5, 23, 3, 43, 4, 2, 346, 7, 56, 3, 4, 22, 57 };
+			int[] arr1 = arr.ToArray();
+			int[] arr2 = arr.ToArray();
+			Console.WriteLine("Пузырьковая сортировка: " + BubbleSort(arr));
+			Console.WriteLine("Улучшенная пузырьковая сортировка: " + BubbleSortImproved(arr1));
+			Console.WriteLine("Сортировка вставками: " + InsertSort(arr2));
 
-			int arg = Convert.ToInt32(Console.ReadLine());
-			int arg1 = Convert.ToInt32(Console.ReadLine());
-			#region 1. Реализовать функцию перевода из десятичной системы в двоичную, используя рекурсию.
-			ToBinary(arg);
-			#endregion
+			foreach (int i in arr1)
+				Console.Write(i + " ");
 
-			#region 2. Реализовать функцию возведения числа a в степень b: a. без рекурсии;	b. рекурсивно;
-			Console.WriteLine(Pwr(arg, arg1));
-			Console.WriteLine(PwrReq(arg, arg1));
-			#endregion
-
-			#region 3. Первая команда увеличивает число на экране на 1, вторая увеличивает это число в 2 раза. Сколько существует программ, которые число 3 преобразуют в число 20?
-			Console.WriteLine(Calc(3, 20));
-			#endregion
+			Console.WriteLine();
+			Console.WriteLine("Элемент найден на индексе: " + BinarySearch(23, arr));
 
 			Console.ReadKey();
 		}
 
-
-
-		// 1. Реализовать функцию перевода из десятичной системы в двоичную, используя рекурсию.
-		private static void ToBinary(int num)
+		static int BubbleSort(int[] arr)
 		{
-			if (num == 0) return;
-			int r = num % 2;
-			ToBinary(num / 2);
-			Console.Write(r);
+
+			int counter = 0;
+			for (int i = 0; i < arr.Length; i++)
+				for (int j = 0; j < arr.Length - 1; j++)
+				{
+					counter++;
+					if (arr[j] > arr[j + 1])
+					{
+						var t = arr[j];
+						arr[j] = arr[j + 1];
+						arr[j + 1] = t;
+					}
+				}
+			return counter;
 		}
 
-		// 2. Реализовать функцию возведения числа a в степень b: a. без рекурсии
-		private static long Pwr(int a, int b)
+		// 1. Попробовать оптимизировать пузырьковую сортировку. Сравнить количество операций сравнения оптимизированной и не оптимизированной программы. 
+		//Написать функции сортировки, которые возвращают количество операций.
+		static int BubbleSortImproved(int[] arr)
 		{
-			if (a == 0) return 0;
-			if (b == 0 || a == 1) return 1;
-
-			long t = a;
-			while (b > 1)
+			int counter = 0;
+			int flag = 0;
+			for (int i = 0; i < arr.Length; i++)
 			{
-				t = t * a;
-				b--;
+				flag = 0;
+				for (int j = 0; j < arr.Length - 1; j++)
+				{
+					counter++;
+					if (arr[j] > arr[j + 1])
+					{
+						flag = 1;
+						var t = arr[j];
+						arr[j] = arr[j + 1];
+						arr[j + 1] = t;
+					}
+				}
+				if (flag == 0) return counter;
 			}
-			return t;
+			return counter;
 		}
 
-		// 2. Реализовать функцию возведения числа a в степень b: b. рекурсивно;
-		private static long PwrReq(int a, int b)
+		// 3. Реализовать бинарный алгоритм поиска в виде функции, которой передается отсортированный массив. Функция возвращает индекс найденного элемента или -1, если элемент не найден.
+		static int BinarySearch(int num, int[] arr)
 		{
-			if (a == 0) return 0;
-			if (b == 0 || a == 1) return 1;
-			if (b == 1) return a;
+			int L = 0, R = arr.Length - 1;
+			while (L <= R)
+			{
+				int m = (L + R) / 2;
 
-			if (b > 2) return a * PwrReq(a, b - 1);
-			else return a * a;
+				if (arr[m] < num)
+					L = m + 1;
+				else
+					R = m - 1;
+				if (arr[m] == num) return m;
+			}
+			return -1;
 
 		}
 
-		/* 3. Первая команда увеличивает число на экране на 1, вторая увеличивает это число в 2 раза. Сколько существует программ, которые число 3 преобразуют в число 20?
-		 * Рекурсивно: 
-		 
-		*/
-		private static int Calc(int val, int target)
+		static int InsertSort(int[] a)
 		{
-			int res = 0;
-			if (val == target) res = 1;
-
-			if (val * 2 <= target)
-				res += Calc(val * 2, target);
-			if (val + 1 <= target)
-				res += Calc(val + 1, target);
-
-			return res;
+			int counter = 0;
+			for (int i = 0; i < a.Length; i++)
+			{
+				int t = a[i];
+				int j = i;
+				while (j > 0 && a[j - 1] > t)
+				{
+					counter++;
+					var temp = a[j];
+					a[j] = a[j - 1];
+					a[j - 1] = temp;
+					j--;
+				}
+			}
+			return counter;
 		}
-
 
 
 
 	}
+
+
+
 }
+
