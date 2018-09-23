@@ -31,9 +31,60 @@ namespace GU_Algorithms
 			}
 			#endregion
 
+			#region 3. Написать программу, которая определяет, является ли введенная скобочная последовательность правильной.
+
+			Console.WriteLine(CheckParenthesesSequence("[2/{5*(4+7)}]"));
+			Console.WriteLine(CheckParenthesesSequence("(2+(2*2))"));
+			Console.WriteLine(CheckParenthesesSequence("()()()())({}{_}}{}{{}}}}"));
+			#endregion
 
 			Console.ReadKey();
 		}
+
+
+		/// <summary>
+		/// 3. Написать программу, которая определяет, является ли введенная скобочная последовательность правильной. 
+		/// Примеры правильных скобочных выражений: (),([])(), {}(), ([{}]), неправильных — )(, ())({), (, ])}), ([(]) для скобок [,(,{.
+		/// Например: (2+(2*2)) или[2 /{5*(4+7)}]
+		/// </summary>
+		private static bool CheckParenthesesSequence(string seq)
+		{
+			Stack<Char> stack = new Stack<Char>();
+
+			foreach (Char c in seq)
+			{
+				if (c == '(' || c == '{' || c == '[')
+				{
+					stack.Push(c);
+				}
+			}
+
+			foreach (Char c in seq)
+			{
+				if (c == ')' || c == '}' || c == ']')
+				{
+					//Console.WriteLine($" открывающая скобка: {stack.Peek()} закрывающая скобка: {c}");
+					switch (stack.Pop())
+					{
+						case '(':
+							if (c != ')') return false;
+							else continue;
+						case '{':
+							if (c != ')') return false;
+							else continue;
+						case '[':
+							if (c != ')') return false;
+							else continue;
+						default:
+							return true;
+
+					}
+
+				}
+			}
+			return true;
+		}
+
 	}
 
 	// 6. *Реализовать очередь.
@@ -54,7 +105,7 @@ namespace GU_Algorithms
 
 		public void Enqueue(QueueNode n)
 		{
-			if(head == null)
+			if (head == null)
 			{
 				head = n;
 				tail = n;
@@ -113,10 +164,6 @@ namespace GU_Algorithms
 		{
 		}
 	}
-
-
-
-
 
 }
 
